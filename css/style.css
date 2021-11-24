@@ -1,0 +1,55 @@
+#panel{
+   max-width:350px;
+}
+
+#deck{
+    background-color: rgba(218,65,103,1);;
+    max-width: 780px;
+    margin:auto;
+    padding:50px 20px;
+    min-height: 700px;
+    box-shadow: 12px 15px 10px 0 rgb(46 61 73 / 50%);
+}
+
+.card{
+    width: 22.5%;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    font-size: 0;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 0 rgb(46 61 73 / 50%);
+}
+
+.open{
+    background-color: rgba(36,47,96,1);
+    cursor: default;
+    font-size: 5rem;
+    color:white;
+}
+
+.match{
+    cursor: default;
+    background-color: #9be38e;
+    font-size: 5rem;
+}
+
+@media(max-width:780px){
+    .card{
+        width:20.5%;
+        height: 125px;
+    }
+}
+
+@media(max-width:340px){
+    #deck{
+        padding:10px;
+        
+    }
+    .card{
+        width: 18%;
+    }
+}
