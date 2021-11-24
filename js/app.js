@@ -25,9 +25,8 @@ let movesNum = 0;
 
 const the_timer = document.getElementById("timer");
 const restart = document.getElementById("restart");
-const container = document.getElementById("deck");
+const container = document.querySelector("#deck");
 const hearts = document.querySelector("#heart li");
-
 
 //functions
 // -------------- Timer ----------------
@@ -54,61 +53,57 @@ const stopClock = () => {
   clearInterval(timerId);
 };
 
- 
-
-// -------------- Moves counting ----------------
+// -------------- Moves count ----------------
 
 const movesCount = (number) => {
-switch(number){
-case 16 :
-  hearts.remove();
-break;
-case 24 :
-  hearts.remove();
-break;
-case 32 :
-  hearts.remove();
-break;
-}
-   
-}
+  switch (number) {
+    case 16:
+      hearts.remove();
+      break;
+    case 24:
+      hearts.remove();
+      break;
+    case 32:
+      hearts.remove();
+      break;
+  }
+};
 
 // -------------- comparing between two cards ----------------
-matching = (arr) => {
-  
-    if (arr[0].children[0].className == arr[1].children[0].className) {
-     arr[0].classList.add("match");
-     arr[1].classList.add("match");  
 
-   } else {
+const matching = (arr) => {
+  if (arr[0].children[0].className == arr[1].children[0].className) {
+    arr[0].classList.add("match");
+    arr[1].classList.add("match");
+  } else {
     arr[0].classList.remove("open");
-    arr[1].classList.remove("open"); 
-     
-    }
-  
-    arr =[];
+     arr[1].classList.remove("open");
+    // setTimeout(() => {
+    //   arr.classList.remove("open");
+    // }, 1000);
     movesNum++;
+  }
+
+  arr = [];
 };
 // -------------- validClick ----------------
 
-const validClick = (card) => {
+function validClick(card) {
   if (
     card.classList.contains("card") &&
+    !card.classList.contains("match") &&
     !card.classList.contains("open") &&
-    !card.classList.contains("match")
+    openCards_arr.length < 2
   ) {
     card.classList.add("open");
     openCards_arr.push(card);
-  
-  if(openCards_arr.length == 2){
-    matching(openCards_arr);}
   }
-  
-};
+}
 
 // -------------- event listeners ----------------
 
-restart.addEventListener("click", function () {
+restart.addEventListener("click", function (event) {
+  // event.target.style.cursor = "pointer";
   stopClock();
   time = 0;
   timerOut = true;
@@ -119,5 +114,8 @@ container.addEventListener("click", function (event) {
   validClick(event.target);
   if (timerOut) {
     initClock();
+  }
+  if (openCards_arr.length == 2) {
+    matching(openCards_arr);
   }
 });
