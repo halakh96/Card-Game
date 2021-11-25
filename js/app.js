@@ -1,3 +1,22 @@
+// -------------- variable ----------------
+let time = 0;
+let timerId = 0;
+let timerOut = true;
+let openCards_arr = [];
+let movesNum = 0;
+
+// -------------- Elements ----------------
+
+const the_timer = document.getElementById("timer");
+const restart = document.getElementById("restart");
+const container = document.querySelector("#deck");
+const hearts = document.querySelectorAll("#heart li");
+const allCards = [...document.querySelectorAll(".card")];
+const moves = document.getElementById("moves");
+
+//functions
+
+
 function shuffle(array) {
   var currentIndex = array.length,
     temporaryValue,
@@ -14,21 +33,6 @@ function shuffle(array) {
   return array;
 }
 
-// -------------- variable ----------------
-let time = 0;
-let timerId = 0;
-let timerOut = true;
-const openCards_arr = [];
-let movesNum = 0;
-
-// -------------- Elements ----------------
-
-const the_timer = document.getElementById("timer");
-const restart = document.getElementById("restart");
-const container = document.querySelector("#deck");
-const hearts = document.querySelector("#heart li");
-
-//functions
 // -------------- Timer ----------------
 
 const initClock = () => {
@@ -51,71 +55,109 @@ const timerCount = () => {
 
 const stopClock = () => {
   clearInterval(timerId);
-};
+}; 
+
+// -------------- shuffling / reset everyThing ----------------
+const shuffling = () =>{
+  movesNum = 0;
+  moves.innerHTML = `${movesNum} Moves`;
+  for(let i =0;i<hearts.length;i++){
+  hearts[i].style.display="block";}
+  for(const element of allCards)
+  {
+    element.classList.remove("match");
+    element.classList.remove("open");
+}
+shuffle(allCards);
+
+}
+
+
 
 // -------------- Moves count ----------------
 
 const movesCount = (number) => {
-  switch (number) {
-    case 16:
-      hearts.remove();
-      break;
-    case 24:
-      hearts.remove();
-      break;
-    case 32:
-      hearts.remove();
-      break;
-  }
+moves.innerHTML = `${number} Moves`;
+// for (const element of hearts)
+// {
+
+  //----delete all hearts in one time ------
+// if (number == 2 || number == 4 || number == 6){
+//   element.remove();
+// }
+
+
+switch (number){
+  case 3:
+hearts[0].style.display="none";
+ break;
+case 6:
+  hearts[1].style.display="none";
+  break;
+case 9:
+  hearts[2].style.display="none";
+  alert("Game Over");
+  moves.innerHTML = `${""}`;
+  break;
+  
+}
+if ( number == 9){
+  stopClock();
+  time = 0;
+  timerOut = true;
+  timerCount();
+ shuffling();
+}
+
 };
 
 // -------------- comparing between two cards ----------------
 
-const matching = (arr) => {
-  if (arr[0].children[0].className == arr[1].children[0].className) {
-    arr[0].classList.add("match");
-    arr[1].classList.add("match");
+const matching = () => {
+  if (openCards_arr[0].children[0].className == openCards_arr[1].children[0].className) {
+    openCards_arr[0].classList.add("match");
+    openCards_arr[1].classList.add("match");
+    openCards_arr = [];
   } else {
-    arr[0].classList.remove("open");
-     arr[1].classList.remove("open");
-    // setTimeout(() => {
-    //   arr.classList.remove("open");
-    // }, 1000);
+   
+     setTimeout(() => {
+      openCards_arr[0].classList.remove("open");
+      openCards_arr[1].classList.remove("open");
+      openCards_arr = [];
+    }, 1000);
     movesNum++;
   }
 
-  arr = [];
+
 };
 // -------------- validClick ----------------
 
 function validClick(card) {
-  if (
-    card.classList.contains("card") &&
-    !card.classList.contains("match") &&
-    !card.classList.contains("open") &&
-    openCards_arr.length < 2
-  ) {
-    card.classList.add("open");
-    openCards_arr.push(card);
-  }
+
+  return card.classList.contains("card")&&!card.classList.contains("match")&&!card.classList.contains("open")&&openCards_arr.length<2; 
 }
 
 // -------------- event listeners ----------------
 
 restart.addEventListener("click", function (event) {
-  // event.target.style.cursor = "pointer";
   stopClock();
   time = 0;
   timerOut = true;
   timerCount();
+ shuffling();
 });
 
 container.addEventListener("click", function (event) {
-  validClick(event.target);
+  let card = event.target;
+  if(validClick(card)){
   if (timerOut) {
     initClock();
   }
+  card.classList.add("open");
+    openCards_arr.push(card);
   if (openCards_arr.length == 2) {
-    matching(openCards_arr);
+    matching();
   }
+  movesCount(movesNum);
+}
 });
