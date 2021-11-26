@@ -9,6 +9,8 @@
     padding:50px 20px;
     min-height: 700px;
     box-shadow: 12px 15px 10px 0 rgb(46 61 73 / 50%);
+
+    
 }
 
 .card{
@@ -29,6 +31,7 @@
     cursor: default;
     font-size: 5rem;
     color:white;
+
 }
 
 .match{

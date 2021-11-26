@@ -3,6 +3,7 @@ let time = 0;
 let timerId = 0;
 let timerOut = true;
 let openCards_arr = [];
+let matchCard_num = 0;
 let movesNum = 0;
 
 // -------------- Elements ----------------
@@ -14,8 +15,8 @@ const hearts = document.querySelectorAll("#heart li");
 const allCards = [...document.querySelectorAll(".card")];
 const moves = document.getElementById("moves");
 
-//functions
 
+//functions
 
 function shuffle(array) {
   var currentIndex = array.length,
@@ -78,10 +79,11 @@ shuffle(allCards);
 
 const movesCount = (number) => {
 moves.innerHTML = `${number} Moves`;
+ 
+
+//----delete all hearts in one time ------
 // for (const element of hearts)
 // {
-
-  //----delete all hearts in one time ------
 // if (number == 2 || number == 4 || number == 6){
 //   element.remove();
 // }
@@ -118,6 +120,7 @@ const matching = () => {
     openCards_arr[0].classList.add("match");
     openCards_arr[1].classList.add("match");
     openCards_arr = [];
+    matchCard_num++;
   } else {
    
      setTimeout(() => {
@@ -127,8 +130,11 @@ const matching = () => {
     }, 1000);
     movesNum++;
   }
-
-
+  setTimeout(() => {
+    if (matchCard_num == 8){
+      alert("You WIN ");
+    }
+  }, 1000);
 };
 // -------------- validClick ----------------
 
@@ -158,6 +164,8 @@ container.addEventListener("click", function (event) {
   if (openCards_arr.length == 2) {
     matching();
   }
+  
   movesCount(movesNum);
 }
+
 });
