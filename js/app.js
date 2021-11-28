@@ -16,23 +16,8 @@ const allCards = [...document.querySelectorAll(".card")];
 const moves = document.getElementById("moves");
 
 
-//functions
 
-function shuffle(array) {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
+//------------- All functions -------------
 
 // -------------- Timer ----------------
 
@@ -58,8 +43,13 @@ const stopClock = () => {
   clearInterval(timerId);
 }; 
 
-// -------------- shuffling / reset everyThing ----------------
-const shuffling = () =>{
+// -------------- reset everyThing ----------------
+
+const resetAll = () => {
+  stopClock();
+  time = 0;
+  timerOut = true;
+  timerCount();
   movesNum = 0;
   moves.innerHTML = `${movesNum} Moves`;
   for(let i =0;i<hearts.length;i++){
@@ -69,49 +59,45 @@ const shuffling = () =>{
     element.classList.remove("match");
     element.classList.remove("open");
 }
-shuffle(allCards);
-
-}
-
-
-
-// -------------- Moves count ----------------
-
-const movesCount = (number) => {
-moves.innerHTML = `${number} Moves`;
- 
-
-//----delete all hearts in one time ------
-// for (const element of hearts)
-// {
-// if (number == 2 || number == 4 || number == 6){
-//   element.remove();
-// }
-
-
-switch (number){
-  case 3:
-hearts[0].style.display="none";
- break;
-case 6:
-  hearts[1].style.display="none";
-  break;
-case 9:
-  hearts[2].style.display="none";
-  alert("Game Over");
-  moves.innerHTML = `${""}`;
-  break;
   
 }
-if ( number == 9){
-  stopClock();
-  time = 0;
-  timerOut = true;
-  timerCount();
- shuffling();
+
+// -------------- shuffling  ----------------
+
+
+function shuffle(array) {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+   
+  }
+
+  return array;
+  
 }
 
-};
+const shuffling = () =>{
+ 
+const shuffledCards = shuffle(allCards);
+  for (let card of shuffledCards){
+    container.appendChild(card);
+  }
+}
+
+
+// -------------- validClick ----------------
+
+function validClick(card) {
+
+  return card.classList.contains("card")&&!card.classList.contains("match")&&!card.classList.contains("open")&&openCards_arr.length<2; 
+}
+
 
 // -------------- comparing between two cards ----------------
 
@@ -128,29 +114,54 @@ const matching = () => {
       openCards_arr[1].classList.remove("open");
       openCards_arr = [];
     }, 1000);
-    movesNum++;
   }
-  setTimeout(() => {
-    if (matchCard_num == 8){
-      alert("You WIN ");
-    }
-  }, 1000);
+  movesNum++;
+  winMessage(matchCard_num);
 };
-// -------------- validClick ----------------
 
-function validClick(card) {
+const winMessage =(num)=>{
+setTimeout(() => {
+  if (num == 8){
+    alert("You WIN ");
+  }
+}, 1000);
 
-  return card.classList.contains("card")&&!card.classList.contains("match")&&!card.classList.contains("open")&&openCards_arr.length<2; 
 }
+
+// -------------- Moves count ----------------
+
+const movesCount = (number) => {
+moves.innerHTML = `${number} Moves`;
+switch (number){
+  case 16:
+hearts[0].style.display="none";
+ break;
+case 24:
+  hearts[1].style.display="none";
+  break;
+case 32:
+  hearts[2].style.display="none";
+  alert("Game Over");
+  // moves.innerHTML = `${""}`;
+  break;
+  
+}
+if ( number == 32){
+  resetAll();
+ shuffling();
+}
+
+};
+
+// -------------- start here ----------------
+
+shuffling();
 
 // -------------- event listeners ----------------
 
 restart.addEventListener("click", function (event) {
-  stopClock();
-  time = 0;
-  timerOut = true;
-  timerCount();
- shuffling();
+resetAll();
+shuffling();
 });
 
 container.addEventListener("click", function (event) {
@@ -163,8 +174,7 @@ container.addEventListener("click", function (event) {
     openCards_arr.push(card);
   if (openCards_arr.length == 2) {
     matching();
-  }
-  
+  }  
   movesCount(movesNum);
 }
 
