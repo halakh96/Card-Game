@@ -14,8 +14,10 @@ const container = document.querySelector("#deck");
 const hearts = document.querySelectorAll("#heart li");
 const allCards = [...document.querySelectorAll(".card")];
 const moves = document.getElementById("moves");
-
-
+const box = document.getElementById("mybox");
+const tryAgainBtn = document.querySelector(".btn");
+const closeBtn = document.querySelector(".close");
+const result = document.querySelector("#result");
 
 //------------- All functions -------------
 
@@ -91,12 +93,13 @@ const shuffledCards = shuffle(allCards);
 }
 
 
-// -------------- validClick ----------------
+ // -------------- validClick ----------------
 
 function validClick(card) {
 
   return card.classList.contains("card")&&!card.classList.contains("match")&&!card.classList.contains("open")&&openCards_arr.length<2; 
 }
+
 
 
 // -------------- comparing between two cards ----------------
@@ -118,15 +121,16 @@ const matching = () => {
   movesNum++;
   winMessage(matchCard_num);
 };
-
-const winMessage =(num)=>{
-setTimeout(() => {
+const winMessage = (num) => {setTimeout(() => {
   if (num == 8){
-    alert("You WIN ");
+    box.style.display="block";
+result.innerHTML = "<img src='img/winImg.png' alt='win' width='50%'>";
+stopClock();
   }
 }, 1000);
-
 }
+
+
 
 // -------------- Moves count ----------------
 
@@ -141,21 +145,24 @@ case 24:
   break;
 case 32:
   hearts[2].style.display="none";
-  alert("Game Over");
-  // moves.innerHTML = `${""}`;
   break;
   
 }
-if ( number == 32){
-  resetAll();
- shuffling();
-}
+setTimeout(() => {
+  if (number == 32){
+    box.style.display="block";
+    result.innerHTML = "<img src='img/lossImg.png' alt='lose' width='70%'>";
+    stopClock();
+  }
+}, 1000);
+
 
 };
 
 // -------------- start here ----------------
 
 shuffling();
+box.style.display="none";
 
 // -------------- event listeners ----------------
 
@@ -177,5 +184,18 @@ container.addEventListener("click", function (event) {
   }  
   movesCount(movesNum);
 }
+
+});
+
+
+tryAgainBtn.addEventListener("click" , function (event) {
+box.style.display = "none";
+  resetAll();
+  shuffling();
+
+});
+
+closeBtn.addEventListener("click",function (event) {
+  box.style.display = "none";
 
 });
