@@ -11,7 +11,7 @@ let movesNum = 0;
 const the_timer = document.getElementById("timer");
 const restart = document.getElementById("restart");
 const container = document.querySelector("#deck");
-const hearts = document.querySelectorAll("#heart li");
+const stars = document.querySelectorAll("#star li");
 const allCards = [...document.querySelectorAll(".card")];
 const moves = document.getElementById("moves");
 const box = document.getElementById("mybox");
@@ -54,8 +54,8 @@ const resetAll = () => {
   timerCount();
   movesNum = 0;
   moves.innerHTML = `${movesNum} Moves`;
-  for(let i =0;i<hearts.length;i++){
-  hearts[i].style.display="block";}
+  for(let i =0;i<stars.length;i++){
+  stars[i].style.display="block";}
   for(const element of allCards)
   {
     element.classList.remove("match");
@@ -119,16 +119,16 @@ const matching = () => {
     }, 1000);
   }
   movesNum++;
-  winMessage(matchCard_num);
-};
-const winMessage = (num) => {setTimeout(() => {
-  if (num == 8){
-    box.style.display="block";
-result.innerHTML = "<img src='img/winImg.png' alt='win' width='50%'>";
-stopClock();
+  setTimeout(() => {
+    if (matchCard_num == 8){
+      box.style.display="block";
+  result.innerHTML = "<img src='img/winImg.png' alt='win' width='50%'>";
+  matchCard_num = 0;
+  stopClock();
+    }
+  }, 1000);
   }
-}, 1000);
-}
+  
 
 
 
@@ -138,13 +138,13 @@ const movesCount = (number) => {
 moves.innerHTML = `${number} Moves`;
 switch (number){
   case 16:
-hearts[0].style.display="none";
+    stars[0].style.display="none";
  break;
 case 24:
-  hearts[1].style.display="none";
+  stars[1].style.display="none";
   break;
 case 32:
-  hearts[2].style.display="none";
+  stars[2].style.display="none";
   break;
   
 }
@@ -190,8 +190,7 @@ container.addEventListener("click", function (event) {
 
 tryAgainBtn.addEventListener("click" , function (event) {
 box.style.display = "none";
-  resetAll();
-  shuffling();
+  location.reload();
 
 });
 

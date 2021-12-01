@@ -1,9 +1,13 @@
+body {
+  color: rgba(36,47,96,1);
+}
+
 #panel{
    max-width:350px;
 }
 
 #deck{
-    background-color: rgba(218,65,103,1);;
+    background-color: #949ee9;
     max-width: 780px;
     margin:auto;
     padding:50px 20px;
@@ -19,15 +23,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: black;
-    font-size: 0;
+    background-color: #62699a;
+        font-size: 0;
     cursor: pointer;
     border-radius: 10px;
     box-shadow: 5px 5px 10px 0 rgb(46 61 73 / 50%);
 }
 
 .open{
-    background-color: rgba(36,47,96,1);
+    background-color:rgba(36,47,96,1);
     cursor: default;
     font-size: 5rem;
     color:white;
@@ -36,7 +40,7 @@
 
 .match{
     cursor: default;
-    background-color: #9be38e;
+    background-color:  #24b9bb;
     font-size: 5rem;
 }
 
@@ -61,6 +65,8 @@
     border: 1px solid #888;
     width: 30%;
     height: auto;
+    border: 5px solid #62699a;
+    border-radius: 5%;
     
   }
 
@@ -73,12 +79,12 @@
 
   .close:hover,
   .close:focus {
-    color: #000;
+    color: #62699a;
     text-decoration: none;
     cursor: pointer;
   }
   .btn {
-   background-color: rgba(218,65,103,1);;
+   background-color: #62699a;
    color:#fefefe;
    
   }
