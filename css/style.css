@@ -105,3 +105,9 @@ body {
         width: 18%;
     }
 }
+
+@media(max-width:600px){
+  .box-content{
+    width: 70%;
+  }
+}
